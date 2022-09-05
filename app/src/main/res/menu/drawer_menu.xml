@@ -1,0 +1,54 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:title="Accounts">
+        <menu>
+            <item
+                android:visible="false"
+                android:id="@+id/become_seller"
+                android:icon="@drawable/ic_sell"
+                android:title="Become a seller" />
+            <item
+                android:visible="false"
+                android:id="@+id/edit_profile"
+                android:icon="@drawable/ic_account"
+                android:title="Account settings" />
+
+            <item
+                android:visible="false"
+                android:id="@+id/my_order"
+                android:icon="@drawable/ic_order"
+                android:title="My orders" />
+            <item
+                android:visible="false"
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Logout" />
+        </menu>
+
+    </item>
+
+    <item
+        android:title="Others">
+        <menu>
+            <item
+                android:id="@+id/share_app"
+                android:icon="@drawable/ic_share"
+                android:title="Share App" />
+
+            <item
+                android:id="@+id/rate_app"
+                android:icon="@drawable/ic_rate"
+                android:title="Rate App" />
+
+            <item
+                android:id="@+id/privacy_policy"
+                android:icon="@drawable/ic_privacy"
+                android:title="Privacy Policy" />
+
+        </menu>
+
+    </item>
+
+</menu>

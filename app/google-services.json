@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "236837755712",
+    "project_id": "salikkim-store",
+    "storage_bucket": "salikkim-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236837755712:android:2d492c846b79f443aeb8a5",
+        "android_client_info": {
+          "package_name": "com.salikkim.store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236837755712-6o4hd2uoi8grek18hvscgfpsheb0g4ha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.salikkim.store",
+            "certificate_hash": "dcb36834a8b7111286da4d311c83ad5b51ce69e0"
+          }
+        },
+        {
+          "client_id": "236837755712-u3ib1qn5vcoagsuke991unp9qtp03b3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy7JUcy1p-yn60VDwCVY2UpReuhM0woaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236837755712-u3ib1qn5vcoagsuke991unp9qtp03b3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
