@@ -3,6 +3,7 @@ package com.salikkim.store.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerDrawable;
-import com.salikkim.store.Helper.VolleyEventListener;
-import com.salikkim.store.Helper.VolleyRequest;
 import com.salikkim.store.Models.Orders;
 import com.salikkim.store.R;
 
@@ -60,12 +59,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemViewHolder.title.setText(ordersList.get(pos).getName());
         itemViewHolder.order_date.setText(ordersList.get(pos).getOrder_date());
         itemViewHolder.seller.setText("Seller: " + ordersList.get(pos).getSeller_name());
-        itemViewHolder.price.setText(context.getString(R.string.Rs) + ordersList.get(pos).getPrice());
-        itemViewHolder.price.setPaintFlags(itemViewHolder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        itemViewHolder.total.setText(context.getString(R.string.Rs) + ordersList.get(pos).getSale_price());
+        itemViewHolder.total.setText(Html.fromHtml("<b>" + context.getString(R.string.Rs) + String.format("%.0f", ordersList.get(pos).getPrice()) + "</b> " +"(including charges)"));
         itemViewHolder.color.setText("Color: " + ordersList.get(pos).getColor());
         itemViewHolder.size.setText("Size: " + ordersList.get(pos).getSize());
         itemViewHolder.qnty.setText("Qnty: " + ordersList.get(pos).getQnty());
+        if(ordersList.get(pos).getPay_mod()!=0){
+            itemViewHolder.pay_mod.setText("Paid with UPI");
+        }else {
+            itemViewHolder.pay_mod.setText("Cash on delivery");
+        }
 
         if (ordersList.get(pos).getStatus() == 3) {
             itemViewHolder.tv_deliver_info.setText("Delivered");
@@ -109,7 +111,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView thumbnail, btn_info;
-        private TextView title, seller, price, total, color, size, qnty, tv_deliver_info, tv_not_delivered_info, btn_pay, order_date;
+        private TextView title, seller, total, color, size, qnty, tv_deliver_info, tv_not_delivered_info, btn_pay, order_date,pay_mod;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,8 +119,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title = itemView.findViewById(R.id.order_title);
             seller = itemView.findViewById(R.id.order_seller_name);
             order_date = itemView.findViewById(R.id.order_date);
-            price = itemView.findViewById(R.id.order_price);
-            total = itemView.findViewById(R.id.order_sale_price);
+            total = itemView.findViewById(R.id.total_price);
             color = itemView.findViewById(R.id.order_color);
             size = itemView.findViewById(R.id.order_size);
             qnty = itemView.findViewById(R.id.tv_qnty);
@@ -126,6 +127,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tv_deliver_info = itemView.findViewById(R.id.tv_deliver_info);
             tv_not_delivered_info = itemView.findViewById(R.id.tv_not_deliver_info);
             btn_pay = itemView.findViewById(R.id.btn_order_pay_now);
+            pay_mod = itemView.findViewById(R.id.order_pay_mode);
         }
     }
 }

@@ -33,6 +33,9 @@
             android:name=".Activities.CartActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.ProceedActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.DetailsActivity"
             android:exported="false" />
         <activity

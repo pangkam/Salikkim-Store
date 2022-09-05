@@ -85,14 +85,16 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .into(itemViewHolder.thumbnail);
         itemViewHolder.title.setText(cartList.get(pos).getName());
         itemViewHolder.seller.setText("Seller: " + cartList.get(pos).getSeller_name());
-        itemViewHolder.price.setText(context.getString(R.string.Rs) + cartList.get(pos).getPrice());
+        itemViewHolder.price.setText(context.getString(R.string.Rs) + String.format("%.0f", cartList.get(pos).getPrice()));
         itemViewHolder.price.setPaintFlags(itemViewHolder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        itemViewHolder.total.setText(context.getString(R.string.Rs) + cartList.get(pos).getSale_price());
-        itemViewHolder.discount.setText(cartList.get(pos).getDiscount() + "% Offer");
+        itemViewHolder.total.setText(context.getString(R.string.Rs) + String.format("%.0f", cartList.get(pos).getSale_price()));
+        itemViewHolder.discount.setText(String.format("%.0f",cartList.get(pos).getDiscount()) + "% Offer");
         itemViewHolder.color.setText("Color: " + cartList.get(pos).getColor());
         itemViewHolder.size.setText("Size: " + cartList.get(pos).getSize());
         itemViewHolder.qnty.setText("Qnty: " + cartList.get(pos).getQnty());
-
+        if (cartList.get(pos).getCod() != 0) {
+            itemViewHolder.cod.setVisibility(View.VISIBLE);
+        }
         String all_vals = cartList.get(pos).getAvailable_adresses();
         List<String> list = Arrays.asList(all_vals.split(","));
 
@@ -122,7 +124,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout pop_up;
         private ImageView thumbnail, btn_del;
-        private TextView title, seller, price, total, color, size, qnty, discount, tv_not_deliver;
+        private TextView title, seller, price, total, color, size, qnty, discount, tv_not_deliver, cod;
 
         public ItemViewHolder(@NonNull View itemView, DelClickListener listener, OnQuantitySetListener qListener) {
             super(itemView);
@@ -138,6 +140,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             discount = itemView.findViewById(R.id.cart_discount);
             tv_not_deliver = itemView.findViewById(R.id.tv_not_deliver_info);
             pop_up = itemView.findViewById(R.id.select_qnty);
+            cod = itemView.findViewById(R.id.cart_cod);
 
             btn_del.setOnClickListener(new View.OnClickListener() {
                 @Override

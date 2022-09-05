@@ -77,58 +77,20 @@
         android:layout_below="@+id/appBarLayout_cart"
         android:background="@color/bright_background"
         android:orientation="vertical"
+        android:padding="10dp"
         android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/select_add_layout"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:text="Address"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select Address"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/cart_addr_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible" />
-        </LinearLayout>
-
-        <LinearLayout
+        <Spinner
+            android:id="@+id/cart_addr_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="10dp">
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="2"
-                android:text="0000000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/cart_btn_background"
-                android:text="Add" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -212,6 +174,28 @@
                             android:textColor="@color/green"
                             android:textSize="14sp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_weight="1"
+                            android:text="Shipping charges"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/cart_shipping_charge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="Rs 200"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -277,7 +261,7 @@
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/btn_checkout"
             android:gravity="start|center"
-            android:text="Rs 4300"
+            android:text="0000"
             android:textSize="16sp"
             android:textStyle="bold" />
 

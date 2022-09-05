@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,8 +59,8 @@ public class DetailsActivity extends AppCompatActivity {
     private String size_url = "https://hawtie.000webhostapp.com/salikkim_store/getsize.php";
     private String addr_url = "https://hawtie.000webhostapp.com/salikkim_store/getavailableaddresses.php";
     private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110";
-    private String name, discount, color, product_desc, available_addresses, seller_name, seller_id;
-    private int id, price, salePrice;
+    private String name, color, product_desc, available_addresses, seller_name, seller_id;
+    private double id, price, salePrice, cod, shipping_charge, discount;
     private NativeAd nativeAd;
     private List<String> size_string;
     private List<String> images_string;
@@ -92,12 +93,14 @@ public class DetailsActivity extends AppCompatActivity {
             name = getIntent().getExtras().getString("Name");
             seller_id = getIntent().getExtras().getString("Seller_id");
             seller_name = getIntent().getExtras().getString("Seller_name");
-            price = getIntent().getExtras().getInt("Price");
-            salePrice = getIntent().getExtras().getInt("Sale_price");
-            discount = getIntent().getExtras().getString("Discount");
+            price = getIntent().getExtras().getDouble("Price");
+            salePrice = getIntent().getExtras().getDouble("Sale_price");
+            shipping_charge = getIntent().getExtras().getDouble("Shipping_charge");
+            discount = getIntent().getExtras().getDouble("Discount");
             color = getIntent().getExtras().getString("Color");
             product_desc = getIntent().getExtras().getString("Product_desc");
             available_addresses = getIntent().getExtras().getString("Available_addresses");
+            cod = getIntent().getExtras().getInt("Cod");
             initViews();
 
         }
@@ -212,13 +215,17 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void initViews() {
         detailsBinding.titleDetail.setText(name);
-        detailsBinding.priceDetail.setText(getString(R.string.Rs) + price);
+        detailsBinding.priceDetail.setText(getString(R.string.Rs) + String.format("%.0f", price));
         detailsBinding.priceDetail.setPaintFlags(detailsBinding.priceDetail.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        detailsBinding.salePriceDetail.setText(getString(R.string.Rs) + salePrice);
-        detailsBinding.offerDetail.setText(discount);
+        detailsBinding.salePriceDetail.setText(getString(R.string.Rs) + String.format("%.0f", salePrice));
+        detailsBinding.offerDetail.setText(String.format("%.0f", discount) + "% Offer");
         detailsBinding.chipColorDetails.setText(color);
         detailsBinding.detailDetail.setText(product_desc.replace(",", "\n"));
         detailsBinding.sellerDetail.setText(seller_name);
+        detailsBinding.detailShippingCharge.setText(Html.fromHtml("<b>+ " + getApplicationContext().getString(R.string.Rs) + String.format("%.0f", shipping_charge) + "</b> (shipping charge)"));
+        if (cod != 0) {
+            detailsBinding.tvDetailCod.setVisibility(View.VISIBLE);
+        }
         detailsBinding.detailChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

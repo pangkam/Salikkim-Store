@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appBarLayout_details"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -114,11 +114,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/viewPager_details"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
                 app:dotsColor="@color/red"
                 app:dotsCornerRadius="8dp"
                 app:dotsSize="14dp"
                 app:dotsSpacing="4dp"
-                android:layout_marginBottom="10dp"
                 app:dotsStrokeColor="@color/red"
                 app:dotsStrokeWidth="2dp" />
 
@@ -178,9 +178,17 @@
                 android:layout_below="@+id/price_detail"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
-                android:layout_toStartOf="@+id/detail_chat"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detail_shipping_charge"
+                android:layout_marginStart="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_detail"
+                android:layout_toLeftOf="@id/detail_chat"
+                android:layout_toEndOf="@+id/sale_price_detail" />
 
             <TextView
                 android:id="@+id/colorText_detail"
@@ -220,10 +228,10 @@
                 android:id="@+id/chipGroup_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:singleSelection="true"
                 android:layout_below="@+id/sizeText_detail"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp">
+                android:layout_marginEnd="5dp"
+                app:singleSelection="true">
 
                 <!-- <com.google.android.material.chip.Chip
                      android:layout_width="wrap_content"
@@ -294,10 +302,22 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/availableAreaText_detail"
+                android:id="@+id/tv_detail_cod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/seller_detail"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="8dp"
+                android:text="Cash on delivery available"
+                android:textColor="@color/green"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/availableAreaText_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_detail_cod"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"

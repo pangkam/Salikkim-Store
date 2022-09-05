@@ -58,8 +58,7 @@ public class OrderActivity extends AppCompatActivity {
                         int order_id = jsonObject.getInt("Order_id");
                         String title = jsonObject.getString("Name");
                         String thumbnail = jsonObject.getString("Thumbnail");
-                        int price = jsonObject.getInt("Price");
-                        int sale_price = jsonObject.getInt("Sale_price");
+                        double price = jsonObject.getDouble("Total_price");
                         String color = jsonObject.getString("Color");
                         String size = jsonObject.getString("Size");
                         int qnty = jsonObject.getInt("Qnty");
@@ -67,7 +66,8 @@ public class OrderActivity extends AppCompatActivity {
                         String order_date = jsonObject.getString("Order_date");
                         int status = jsonObject.getInt("Status");
                         String status_info = jsonObject.getString("Status_info");
-                        ordersList.add(new Orders(title, thumbnail, seller_name, color, size, order_date,status_info, order_id, price, sale_price,qnty,status));
+                        int pay_mod = jsonObject.getInt("Pay_mod");
+                        ordersList.add(new Orders(title, thumbnail, seller_name, color, size, order_date,status_info, order_id, price,qnty,status, pay_mod));
                     }
                     ordersAdapter = new OrdersAdapter(OrderActivity.this, ordersList);
                     orderBinding.recyclerViewOrder.setHasFixedSize(true);

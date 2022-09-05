@@ -2,9 +2,10 @@ package com.salikkim.store.Models;
 
 public class Cart {
     private String name, thumbnail, seller_name, color, size, available_adresses;
-    private int cart_id, price, sale_price, discount, qnty, total_qnty;
+    private int cart_id, qnty, total_qnty, cod;
+    private double price, sale_price, discount,shipping_charge;
 
-    public Cart(String name, String thumbnail, String seller_name, String color, String size, String available_adresses, int cart_id, int price, int sale_price, int qnty, int total_qnty) {
+    public Cart(String name, String thumbnail, String seller_name, String color, String size, String available_adresses, int cart_id, double price, double sale_price, int qnty, int total_qnty, int cod, double shipping_charge) {
         this.name = name;
         this.thumbnail = thumbnail;
         this.seller_name = seller_name;
@@ -15,6 +16,8 @@ public class Cart {
         this.price = price;
         this.sale_price = sale_price;
         this.total_qnty = total_qnty;
+        this.cod = cod;
+        this.shipping_charge = shipping_charge;
         this.discount = ((price - sale_price) * 100 / price);
         this.qnty = qnty;
     }
@@ -47,15 +50,15 @@ public class Cart {
         return cart_id;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public int getSale_price() {
+    public double getSale_price() {
         return sale_price;
     }
 
-    public int getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
@@ -66,5 +69,13 @@ public class Cart {
 
     public int getTotal_qnty() {
         return total_qnty;
+    }
+
+    public int getCod() {
+        return cod;
+    }
+
+    public double getShipping_charge() {
+        return shipping_charge;
     }
 }

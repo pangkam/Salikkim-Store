@@ -1,7 +1,6 @@
 package com.salikkim.store.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,12 +149,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String thumbnail = jsonObject.getString("Thumbnail");
                         int seller_id = jsonObject.getInt("Seller_Id");
                         String seller_name = jsonObject.getString("Seller_name");
-                        int price = jsonObject.getInt("Price");
-                        int sale_price = jsonObject.getInt("Sale_price");
+                        double price = jsonObject.getDouble("Price");
+                        double sale_price = jsonObject.getDouble("Sale_price");
+                        double shipping_charge = jsonObject.getDouble("Shipping_charge");
+                        int cod = jsonObject.getInt("Cod");
                         String color = jsonObject.getString("Color");
                         String product_descriptions = jsonObject.getString("Product_descriptions");
                         String available_adresses = jsonObject.getString("Available_addresses");
-                        itemsList.add(new Products(title, thumbnail, seller_name, color, product_descriptions, available_adresses, product_id, seller_id, price, sale_price));
+                        itemsList.add(new Products(title, thumbnail, seller_name, color, product_descriptions, available_adresses, product_id, seller_id, price, sale_price, shipping_charge, cod));
                     }
                     mainBinding.shimmerMain.setVisibility(View.GONE);
                     mainBinding.recyclerViewMain.setVisibility(View.VISIBLE);

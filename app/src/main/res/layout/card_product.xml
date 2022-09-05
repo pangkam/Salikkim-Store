@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp">
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,9 +20,9 @@
             android:scaleType="centerCrop" />
 
         <RelativeLayout
-            android:background="@drawable/main_item_background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_item_background">
 
             <TextView
                 android:id="@+id/main_title"
@@ -54,17 +57,37 @@
                 android:textColor="#F44336"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/main_total"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/main_price"
                 android:layout_marginStart="5dp"
-                android:paddingBottom="10dp"
-                android:text="Rs.1200"
-                android:textColor="@color/secondary_color"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/main_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Rs.1200"
+                    android:textColor="@color/secondary_color"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_marginStart="3dp"
+                    android:id="@+id/shipping_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:text="+ Rs.100(shipping charge)"
+                    android:textColor="@color/secondary_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
         </RelativeLayout>
 
 

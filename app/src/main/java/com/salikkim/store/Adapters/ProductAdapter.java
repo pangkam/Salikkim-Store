@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(
-                R.layout.card_item, parent, false);
+                R.layout.card_product, parent, false);
         return new ItemViewHolder(v);
     }
 
@@ -58,11 +59,11 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 .placeholder(shimmerDrawable)
                 .into(itemViewHolder.thumbnail);
         itemViewHolder.title.setText(itemsList.get(pos).getName());
-        itemViewHolder.price.setText(context.getString(R.string.Rs) + itemsList.get(pos).getPrice());
+        itemViewHolder.price.setText(context.getString(R.string.Rs) + String.format("%.0f", itemsList.get(pos).getPrice()));
         itemViewHolder.price.setPaintFlags(itemViewHolder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        itemViewHolder.total.setText(context.getString(R.string.Rs) + itemsList.get(pos).getSale_price());
-        itemViewHolder.discount.setText(itemsList.get(pos).getDiscount() + "% Offer");
-
+        itemViewHolder.total.setText(context.getString(R.string.Rs) + String.format("%.0f", itemsList.get(pos).getSale_price()));
+        itemViewHolder.discount.setText(String.format("%.0f", itemsList.get(pos).getDiscount()) + "% Offer");
+        itemViewHolder.shipping_charge.setText(Html.fromHtml("<b>+ " + context.getString(R.string.Rs) + String.format("%.0f", itemsList.get(pos).getShipping_charge()) + "</b> (shipping charge)"));
         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,10 +74,12 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         .putExtra("Seller_name", itemsList.get(pos).getSeller_name())
                         .putExtra("Price", itemsList.get(pos).getPrice())
                         .putExtra("Sale_price", itemsList.get(pos).getSale_price())
-                        .putExtra("Discount", itemsList.get(pos).getDiscount() + "% Offer")
+                        .putExtra("Shipping_charge", itemsList.get(pos).getShipping_charge())
+                        .putExtra("Discount", itemsList.get(pos).getDiscount())
                         .putExtra("Color", itemsList.get(pos).getColor())
                         .putExtra("Product_desc", itemsList.get(pos).getProduct_descriptions())
                         .putExtra("Available_addresses", itemsList.get(pos).getAvailable_adresses())
+                        .putExtra("Cod", itemsList.get(pos).getCod())
                 );
             }
         });
@@ -89,7 +92,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView thumbnail;
-        private TextView title, price, total, discount;
+        private TextView title, price, total, discount, shipping_charge;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +101,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             price = itemView.findViewById(R.id.main_price);
             total = itemView.findViewById(R.id.main_total);
             discount = itemView.findViewById(R.id.main_discount);
+            shipping_charge = itemView.findViewById(R.id.shipping_charge);
         }
     }
 }

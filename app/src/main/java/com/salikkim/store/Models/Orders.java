@@ -1,10 +1,11 @@
 package com.salikkim.store.Models;
 
 public class Orders {
-    private String name,thumbnail,seller_name, color, size,order_date,status_info;
-    private int order_id, price, sale_price, discount,qnty,status;
+    private String name, thumbnail, seller_name, color, size, order_date, status_info;
+    private int order_id, pay_mod, qnty, status;
+    private double price;
 
-    public Orders(String name, String thumbnail, String seller_name, String color, String size, String order_date,String status_info, int order_id, int price, int sale_price, int qnty, int status) {
+    public Orders(String name, String thumbnail, String seller_name, String color, String size, String order_date, String status_info, int order_id, double price, int qnty, int status, int pay_mod) {
         this.name = name;
         this.thumbnail = thumbnail;
         this.seller_name = seller_name;
@@ -14,8 +15,7 @@ public class Orders {
         this.status_info = status_info;
         this.order_id = order_id;
         this.price = price;
-        this.sale_price = sale_price;
-        this.discount = ((price - sale_price) * 100 / price);
+        this.pay_mod = pay_mod;
         this.qnty = qnty;
         this.status = status;
     }
@@ -48,16 +48,8 @@ public class Orders {
         return order_id;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
-    }
-
-    public int getSale_price() {
-        return sale_price;
-    }
-
-    public int getDiscount() {
-        return discount;
     }
 
     public int getQnty() {
@@ -70,5 +62,9 @@ public class Orders {
 
     public String getStatus_info() {
         return status_info;
+    }
+
+    public int getPay_mod() {
+        return pay_mod;
     }
 }

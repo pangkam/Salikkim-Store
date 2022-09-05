@@ -27,20 +27,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class CartActivity extends AppCompatActivity {
+public class ProceedActivity extends AppCompatActivity {
     private String cart_url = "https://hawtie.000webhostapp.com/salikkim_store/cart.php";
     private ActivityCartBinding cartBinding;
     private CartAdapter cartAdapter;
     private List<Cart> cartList;
     private String[] keys = new String[]{"user_id"};
-    private double totalPrice;
-    private double totalDiscounts;
-    private double originalPrice;
-    private double shipping_charge;
+    private float totalPrice;
+    private float totalDiscounts;
+    private float originalPrice;
     private ArrayList<Addresses> address_lists;
     private String text_select_address = "Select";
     private String address_url = "https://hawtie.000webhostapp.com/salikkim_store/getaddress.php";
@@ -78,7 +75,7 @@ public class CartActivity extends AppCompatActivity {
             cartBinding.cartBtnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(CartActivity.this, OtpSendActivity.class));
+                    startActivity(new Intent(ProceedActivity.this, OtpSendActivity.class));
                     finish();
                 }
             });
@@ -114,7 +111,7 @@ public class CartActivity extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         address_lists.add(new Addresses(jsonObject.getString("Addr_Id"), jsonObject.getString("Address")));
                     }
-                    addrAdapter = new AddrAdapter(CartActivity.this, address_lists);
+                    addrAdapter = new AddrAdapter(ProceedActivity.this, address_lists);
                     cartBinding.cartAddrSpinner.setAdapter(addrAdapter);
 
                     for (int i = 0; i < address_lists.size(); i++) {
@@ -135,9 +132,8 @@ public class CartActivity extends AppCompatActivity {
         totalPrice = 0;
         originalPrice = 0;
         totalDiscounts = 0;
-        shipping_charge = 0;
         String[] value = new String[]{user_id};
-        new VolleyRequest(keys, value, cart_url, CartActivity.this, new VolleyEventListener<String>() {
+        new VolleyRequest(keys, value, cart_url, ProceedActivity.this, new VolleyEventListener<String>() {
             @Override
             public void onSuccess(String object) {
                 try {
@@ -150,9 +146,9 @@ public class CartActivity extends AppCompatActivity {
                         String title = jsonObject.getString("Name");
                         String thumbnail = jsonObject.getString("Thumbnail");
                         String seller_name = jsonObject.getString("Seller_name");
-                        double price = jsonObject.getDouble("Price");
-                        double sale_price = jsonObject.getDouble("Sale_price");
                         double shipping_charge = jsonObject.getDouble("Shipping_charge");
+                        int price = jsonObject.getInt("Price");
+                        int sale_price = jsonObject.getInt("Sale_price");
                         String color = jsonObject.getString("Color");
                         String size = jsonObject.getString("Size");
                         int qnty = jsonObject.getInt("Qnty");
@@ -174,23 +170,19 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-        for (int i = 0; i < generateShippingCharge().size(); i++) {
-            shipping_charge += generateShippingCharge().get(i);
-        }
-        totalPrice = totalPrice + shipping_charge;
-        cartAdapter = new CartAdapter(CartActivity.this, cartList, addr_id);
+        cartAdapter = new CartAdapter(ProceedActivity.this, cartList, addr_id);
         cartBinding.recyclerViewCart.setHasFixedSize(true);
-        cartBinding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this));
+        cartBinding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(ProceedActivity.this));
         cartBinding.recyclerViewCart.setAdapter(cartAdapter);
         cartBinding.originalPrice.setText(getApplicationContext().getString(R.string.Rs) + originalPrice);
         cartBinding.totalPrice.setText(getApplicationContext().getString(R.string.Rs) + totalPrice);
         cartBinding.totalDiscounts.setText("-" + getApplicationContext().getString(R.string.Rs) + totalDiscounts);
         cartBinding.cartTotalText.setText(getApplicationContext().getString(R.string.Rs) + totalPrice);
-        cartBinding.cartShippingCharge.setText(getApplicationContext().getString(R.string.Rs) + shipping_charge);
         cartBinding.shimmerCart.setVisibility(View.GONE);
         cartBinding.cartChangeAddress.setVisibility(View.VISIBLE);
         cartBinding.cartNestedScroll.setVisibility(View.VISIBLE);
         cartBinding.cartBottomCheckout.setVisibility(View.VISIBLE);
+
 
         cartAdapter.setOnDelClickListener(new CartAdapter.DelClickListener() {
             @Override
@@ -202,7 +194,7 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter.setQntyListener(new CartAdapter.OnQuantitySetListener() {
             @Override
             public void qClick(View v, int position) {
-                PopupMenu popup = new PopupMenu(CartActivity.this, v);
+                PopupMenu popup = new PopupMenu(ProceedActivity.this, v);
                 int qt = cartList.get(position).getTotal_qnty();
                 for (int i = 1; i < qt + 1; i++) {
                     popup.getMenu().add(Menu.NONE, i, i, "" + i);
@@ -226,11 +218,8 @@ public class CartActivity extends AppCompatActivity {
                 if (checkAvail() != cartList.size()) {
                     cartBinding.tvProceedAlert.setText("Some item is not matching. Please check the available address or quantity");
                     cartBinding.tvProceedAlert.setVisibility(View.VISIBLE);
-                } else {
-                    startActivity(new Intent(CartActivity.this, ProceedActivity.class)
-                            .putExtra("address_id", addr_id)
-                            .putExtra("user_id", user_id));
-                    //  checkoutProceed();
+                }else {
+                    checkoutProceed();
                 }
             }
 
@@ -238,28 +227,12 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Double> generateShippingCharge() {
-        ArrayList<Double> seller = new ArrayList<>();
-        Set<String> s = new HashSet<String>();
-        int count = 0;
-        for (Cart c : cartList) {
-            if (s.add(c.getSeller_name())) {
-                seller.add((c.getShipping_charge() * c.getQnty()) + ((c.getShipping_charge() / 100) * 30));
-            } else {
-                double sh = ((c.getShipping_charge() / 100) * 30);
-                seller.add(sh);
-            }
-        }
-        return seller;
-    }
-
-
     private int checkAvail() {
         int count = 0;
-        for (Cart a : cartList) {
-            String all_vals = a.getAvailable_adresses();
+        for (int i = 0; i < cartList.size(); i++) {
+            String all_vals = cartList.get(i).getAvailable_adresses();
             List<String> list = Arrays.asList(all_vals.split(","));
-            if (!list.contains(addr_id) | a.getQnty() > a.getTotal_qnty()) {
+            if (!list.contains(addr_id) | cartList.get(i).getQnty() > cartList.get(i).getTotal_qnty()) {
                 count--;
             } else {
                 count++;
@@ -274,7 +247,7 @@ public class CartActivity extends AppCompatActivity {
         new VolleyRequest(order_key, value, add_order_url, getApplicationContext(), new VolleyEventListener<String>() {
             @Override
             public void onSuccess(String object) {
-                Toast.makeText(CartActivity.this, "" + object, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProceedActivity.this, "" + object, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -283,13 +256,13 @@ public class CartActivity extends AppCompatActivity {
         cartBinding.tvProceedAlert.setText("");
         cartBinding.tvProceedAlert.setVisibility(View.GONE);
         String[] value = new String[]{String.valueOf(cart_id), String.valueOf(qnt)};
-        new VolleyRequest(set_keys, value, set_url, CartActivity.this, new VolleyEventListener<String>() {
+        new VolleyRequest(set_keys, value, set_url, ProceedActivity.this, new VolleyEventListener<String>() {
             @Override
             public void onSuccess(String object) {
                 if (object.equalsIgnoreCase("Updated")) {
                     getCartList();
                 } else {
-                    Toast.makeText(CartActivity.this, object, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProceedActivity.this, object, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -297,7 +270,7 @@ public class CartActivity extends AppCompatActivity {
 
     private void delete(int cart_id) {
         String[] value = new String[]{String.valueOf(cart_id), column, table};
-        new VolleyRequest(del_keys, value, del_url, CartActivity.this, new VolleyEventListener<String>() {
+        new VolleyRequest(del_keys, value, del_url, ProceedActivity.this, new VolleyEventListener<String>() {
             @Override
             public void onSuccess(String object) {
                 if (object.equalsIgnoreCase("Deleted")) {
